@@ -13,16 +13,13 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { InputMaskModule } from 'primeng/inputmask';
 import { PessoaPesquisaComponent } from './pessoa-pesquisa/pessoa-pesquisa.component';
-import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.component'
-import { PessoasGridComponent } from './pessoas-grid/pessoas-grid.component';
-
-
+import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.component';
+import { PessoasRoutingModule } from './pessoas-routing.module';
 
 @NgModule({
   declarations: [
     PessoaPesquisaComponent,
-    PessoaCadastroComponent,
-    PessoasGridComponent
+    PessoaCadastroComponent
   ],
   imports: [
     CommonModule,
@@ -37,11 +34,9 @@ import { PessoasGridComponent } from './pessoas-grid/pessoas-grid.component';
     DropdownModule,
     CurrencyMaskModule,
     InputMaskModule,
-    SharedModule
+    SharedModule,
+    PessoasRoutingModule
   ],
-  exports: [
-    PessoaPesquisaComponent,
-    PessoaCadastroComponent
-  ],
+  exports: [],
 })
 export class PessoasModule { }

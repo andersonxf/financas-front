@@ -1,3 +1,4 @@
+import { LancamentoFiltro } from './lancamento.service';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -18,6 +19,8 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { LancamentoCadastroComponent } from './lancamento-cadastro/lancamento-cadastro.component';
 import { LancamentoPesquisaComponent } from './lancamento-pesquisa/lancamento-pesquisa.component';
 import { SharedModule } from '../shared/shared.module';
+import { LancamentosRoutingModule } from './lancamentos-routing.module';
+
 
 
 
@@ -38,11 +41,11 @@ import { SharedModule } from '../shared/shared.module';
     SelectButtonModule,
     DropdownModule,
     CurrencyMaskModule,
-    SharedModule
+    SharedModule,
+    LancamentosRoutingModule
   ],
   exports: [
-    LancamentoCadastroComponent,
-    LancamentoPesquisaComponent
+
   ]
 })
 export class LancamentosModule { }

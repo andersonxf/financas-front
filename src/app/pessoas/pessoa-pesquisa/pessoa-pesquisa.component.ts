@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ErrorHandlerService } from './../../core/error-handler.service';
+import { ConfirmationService } from 'primeng/api';
+import { ToastrService } from 'ngx-toastr';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { PessoaFiltro, PessoasService } from '../pessoas.service';
+import { LazyLoadEvent } from 'primeng/api/public_api';
+
 
 @Component({
   selector: 'app-pessoa-pesquisa',
@@ -7,18 +13,77 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PessoaPesquisaComponent implements OnInit {
 
-  pessoas = [
-    { nome: 'Manoel Pinheiro', cidade: 'Uberlândia', estado: 'MG', ativo: true },
-    { nome: 'Sebastião da Silva', cidade: 'São Paulo', estado: 'SP', ativo: false },
-    { nome: 'Carla Souza', cidade: 'Florianópolis', estado: 'SC', ativo: true },
-    { nome: 'Luís Pereira', cidade: 'Curitiba', estado: 'PR', ativo: true },
-    { nome: 'Vilmar Andrade', cidade: 'Rio de Janeiro', estado: 'RJ', ativo: false },
-    { nome: 'Paula Maria', cidade: 'Uberlândia', estado: 'MG', ativo: true }
-  ];
+  @ViewChild('tabela') grid;
+  totalRegistros = 0;
+  filtro = new PessoaFiltro();
+  pessoas = [];
 
-  constructor() { }
+  constructor(
+    private pessoaService: PessoasService,
+    private errorHandler: ErrorHandlerService,
+    private confirmation: ConfirmationService,
+    private toasty: ToastrService
+    ) { }
 
   ngOnInit(): void {
+
   }
+
+  pesquisar(pagina = 0) {
+    this.filtro.pagina = pagina;
+
+    this.pessoaService.pesquisar(this.filtro)
+    .subscribe(response => {
+      this.pessoas = response.content;
+      this.totalRegistros = response.totalElements;
+    });
+  }
+
+  mudarPagina(event: LazyLoadEvent) {
+    const pagina = event.first / event.rows;
+    this.pesquisar(pagina);
+  }
+
+  confirmarExclusao(pessoa: any) {
+    this.confirmation.confirm({
+      message: 'Tem certeza que deseja excluir?',
+      accept: () => {
+        this.excluir(pessoa);
+      }
+    });
+  }
+
+  excluir(pessoa: any) {
+    this.pessoaService.excluir(pessoa.codigo)
+      .subscribe(() => {
+        if (this.grid.first === 0) {
+          this.pesquisar();
+        } else {
+          this.grid.first = 0;
+        }
+
+        this.toasty.success('Pesssoa excluída com sucesso!');
+      },
+      error => {
+        this.errorHandler.handle(error);
+
+      });
+
+  }
+
+  alternarStatus(pessoa: any): void {
+    const novoStatus = !pessoa.ativo;
+
+    this.pessoaService.mudarStatus(pessoa.codigo, novoStatus)
+      .subscribe(() => {
+        const acao = novoStatus ? 'ativada' : 'desativada';
+
+        pessoa.ativo = novoStatus;
+        this.toasty.success(`Pessoa ${acao} com sucesso!`);
+      },
+      error => {
+        this.errorHandler.handle(error);
+      })
+    }
 
 }
