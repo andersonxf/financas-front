@@ -6,18 +6,20 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { ToastrModule } from 'ngx-toastr';
 import { ToastrService } from 'ngx-toastr';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { PessoasModule } from './pessoas/pessoas.module';
 import { PessoasService } from './pessoas/pessoas.service';
 import { LancamentoService } from './lancamentos/lancamento.service';
-import { LancamentosModule } from './lancamentos/lancamentos.module';
 import { AppRoutingModule } from './app-routing.module';
 import {ConfirmationService} from 'primeng/api';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
+import { SegurancaModule } from './seguranca/seguranca.module';
+import { AuthService } from './seguranca/auth.service';
+import { FinancaHttp } from './seguranca/financa-http';
 registerLocaleData(ptBr);
 
 
@@ -25,7 +27,7 @@ registerLocaleData(ptBr);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,    
   ],
   imports: [
     BrowserModule,
@@ -34,9 +36,8 @@ registerLocaleData(ptBr);
     FormsModule,
     ConfirmDialogModule,
     CoreModule,
-    ToastrModule.forRoot(),
-    LancamentosModule,
-    PessoasModule,
+    ToastrModule.forRoot(),    
+    SegurancaModule,
     AppRoutingModule,
   ],
   providers: [
@@ -44,6 +45,9 @@ registerLocaleData(ptBr);
     ToastrService,
     LancamentoService,
     PessoasService,
+    AuthService,
+    JwtHelperService,
+    FinancaHttp,
     { provide: LOCALE_ID, useValue: 'pt-BR' }
   ],
   bootstrap: [AppComponent]

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { Pessoa } from '../core/model';
+import { FinancaHttp } from '../seguranca/financa-http';
+import { environment } from 'src/environments/environment';
 
 export class PessoaFiltro {
   nome: string;
@@ -14,13 +16,15 @@ export class PessoaFiltro {
 })
 export class PessoasService {
 
-  pessoasUrl = 'http://localhost:8080/pessoas';
+  pessoasUrl: string;//'http://localhost:8080/pessoas';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: FinancaHttp) {
+    this.pessoasUrl = `${environment.apiUrl}/pessoas`;
+   }
 
   pesquisar(filtro: PessoaFiltro): Observable <any> {
 
-    const headers = new HttpHeaders({Authorization : 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='});
+    //const headers = new HttpHeaders({Authorization : 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='});
     let params = new HttpParams ();
 
     params = params.set('page', filtro.pagina.toString());
@@ -30,42 +34,42 @@ export class PessoasService {
       params = params.set('nome', filtro.nome);
     }
 
-    return this.http.get(`${this.pessoasUrl}?resumo`, { headers, params });
+    return this.http.get(`${this.pessoasUrl}?resumo`, { params });
   }
 
   listarTodas(): Observable<any> {
-    const headers = new HttpHeaders({Authorization : 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='});
+    //const headers = new HttpHeaders({Authorization : 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='});
 
-    return this.http.get(this.pessoasUrl, { headers });
+    return this.http.get(this.pessoasUrl);
   }
 
   excluir(codigo: number): Observable<any> {
-    const headers = new HttpHeaders({Authorization : 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='});
-    return this.http.delete(`${this.pessoasUrl}/${codigo}`, { headers });
+   // const headers = new HttpHeaders({Authorization : 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='});
+    return this.http.delete(`${this.pessoasUrl}/${codigo}`);
   }
 
   mudarStatus(codigo: number, ativo: boolean): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization : 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==',
-      'Content-Type': 'application/json'
-    });
+    // const headers = new HttpHeaders({
+    //   Authorization : 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==',
+    //   'Content-Type': 'application/json'
+    // });
 
-    return this.http.put(`${this.pessoasUrl}/${codigo}/ativo`, ativo, { headers });
+    return this.http.put(`${this.pessoasUrl}/${codigo}/ativo`, ativo);
 
   }
 
   adicionar(pessoa: Pessoa): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization : 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==',
-      'Content-Type': 'application/json'
-    });
+    // const headers = new HttpHeaders({
+    //   Authorization : 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==',
+    //   'Content-Type': 'application/json'
+    // });
 
-    return this.http.post(this.pessoasUrl, JSON.stringify(pessoa), { headers });
+    return this.http.post(this.pessoasUrl, JSON.stringify(pessoa));
   }
 
   atualizar(pessoa: Pessoa): Promise<Pessoa> {
     const headers = new HttpHeaders({
-      Authorization : 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==',
+      // Authorization : 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==',
       'Content-Type': 'application/json'
     });
 
@@ -77,7 +81,7 @@ export class PessoasService {
 
   buscarPorCodigo(codigo: number): Promise<Pessoa> {
     const headers = new HttpHeaders({
-      Authorization : 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==',
+      // Authorization : 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==',
       'Content-Type': 'application/json'
     });
 

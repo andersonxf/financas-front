@@ -5,15 +5,15 @@ import { PessoaPesquisaComponent } from './pessoa-pesquisa/pessoa-pesquisa.compo
 
 const routes: Routes = [
   {
-    path: 'pessoas',
+    path: '',
     component: PessoaPesquisaComponent,
   },
   {
-    path: 'pessoas/nova',
+    path: 'nova',
     component: PessoaCadastroComponent,
   },
   {
-    path: 'pessoas/:codigo',
+    path: ':codigo',
     component: PessoaCadastroComponent,
   }
 ];

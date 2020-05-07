@@ -4,6 +4,7 @@ import { LancamentoService, LancamentoFiltro } from './../lancamento.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api/public_api';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/seguranca/auth.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class LancamentoPesquisaComponent implements OnInit {
     private lancamentoService: LancamentoService,
     private toasty: ToastrService,
     private confirmationService: ConfirmationService,
-    private errorHandler: ErrorHandlerService
+    private errorHandler: ErrorHandlerService,
+    public auth: AuthService
     ) { }
 
   ngOnInit(): void {
