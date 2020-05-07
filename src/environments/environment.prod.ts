@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:8080',
+  apiUrl: 'https://andfinanca-api.herokuapp.com/',
 
-  tokenWhitelistedDomains: [ new RegExp('http://localhost:8080') ],
+  tokenWhitelistedDomains: [ new RegExp('andfinanca-api.herokuapp.com/') ],
   tokenBlacklistedRoutes: [ new RegExp('\/oauth\/token') ]
 };
