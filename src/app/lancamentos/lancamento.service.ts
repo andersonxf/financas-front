@@ -23,7 +23,7 @@ export class LancamentoFiltro {
 })
 export class LancamentoService {
 
-   lancamentosUrl: string; //'http://localhost:8080/lancamentos';
+   lancamentosUrl: string;
 
   constructor(private http: FinancaHttp) {
     this.lancamentosUrl = `${environment.apiUrl}/lancamentos`;
