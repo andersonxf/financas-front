@@ -1,9 +1,8 @@
 import { ErrorHandlerService } from './../../core/error-handler.service';
 import { ConfirmationService } from 'primeng/api';
-import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PessoaFiltro, PessoasService } from '../pessoas.service';
-import { LazyLoadEvent } from 'primeng/api/public_api';
+import { LazyLoadEvent, MessageService } from 'primeng/api';
 
 
 @Component({
@@ -22,7 +21,7 @@ export class PessoaPesquisaComponent implements OnInit {
     private pessoaService: PessoasService,
     private errorHandler: ErrorHandlerService,
     private confirmation: ConfirmationService,
-    private toasty: ToastrService
+    private messageService: MessageService
     ) { }
 
   ngOnInit(): void {
@@ -62,7 +61,8 @@ export class PessoaPesquisaComponent implements OnInit {
           this.grid.first = 0;
         }
 
-        this.toasty.success('Pesssoa excluída com sucesso!');
+        this.messageService.add({severity:'success', summary:'Mensagem', detail:'Pesssoa excluída com sucesso!'});
+        
       },
       error => {
         this.errorHandler.handle(error);
@@ -75,15 +75,12 @@ export class PessoaPesquisaComponent implements OnInit {
     const novoStatus = !pessoa.ativo;
 
     this.pessoaService.mudarStatus(pessoa.codigo, novoStatus)
-      .subscribe(() => {
+      .then(() => {
         const acao = novoStatus ? 'ativada' : 'desativada';
 
         pessoa.ativo = novoStatus;
-        this.toasty.success(`Pessoa ${acao} com sucesso!`);
-      },
-      error => {
-        this.errorHandler.handle(error);
+        this.messageService.add({severity:'success', summary:'Mensagem', detail:`Pessoa ${acao} com sucesso!`});
       })
-    }
-
+      .catch(erro => this.errorHandler.handle(erro));
+  }
 }

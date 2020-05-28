@@ -31,16 +31,18 @@
                 <th style="width:10%">Status</th>
                 <th style="width:10%"></th>
             </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-pes>
+         </ng-template>
+         <ng-template pTemplate="body" let-pes>
             <tr>
                 <td>{{pes.nome}}</td>
-                <td>{{pes.cidade}}</td>
-                <td>{{pes.estado}}</td>
+                <td>{{pes.endereco.cidade?.nome}}</td>
+                <td>{{pes.endereco.cidade.estado?.nome}}</td>
                 <td>
-                  <a href="javascript:;" [pTooltip]="pes.ativo ? 'Desativar' : 'Ativar'"
-                    tooltipPosition="top" (click)="alternarStatus(pes)">
-                  {{ pes.ativo ? 'Ativo' : 'Inativo' }}
+                  <a href="javascript:;"
+                    [pTooltip]="pes.ativo ? 'Desativar' : 'Ativar'"
+                    tooltipPosition="top"
+                    (click)="alternarStatus(pes)">
+                    {{ pes.ativo ? 'Ativo' : 'Inativo' }}
                   </a>
                 </td>
                 <td>
@@ -51,7 +53,7 @@
                   tooltipPosition="top" (click)="confirmarExclusao(pes)"></button>
                 </td>
             </tr>
-        </ng-template>
+         </ng-template>
       </p-table>
     </div>
 

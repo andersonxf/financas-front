@@ -3,7 +3,7 @@ import { ConfirmationService } from 'primeng/api';
 import { LancamentoService, LancamentoFiltro } from './../lancamento.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api/public_api';
-import { ToastrService } from 'ngx-toastr';
+import { MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/seguranca/auth.service';
 
 
@@ -21,7 +21,7 @@ export class LancamentoPesquisaComponent implements OnInit {
 
   constructor(
     private lancamentoService: LancamentoService,
-    private toasty: ToastrService,
+    private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private errorHandler: ErrorHandlerService,
     public auth: AuthService
@@ -67,7 +67,8 @@ export class LancamentoPesquisaComponent implements OnInit {
       } else {
         this.grid.first = 0;
       }
-      this.toasty.success('Sucesso!', 'Lançamento Excluido com sucesso!');
+      this.messageService.add({severity:'success', summary:'Sucesso!', detail:'Lançamento Excluido com sucesso!'});
+      
     })
     ;
   }

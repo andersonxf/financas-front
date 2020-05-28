@@ -1,11 +1,9 @@
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpRequest, HttpErrorResponse } from '@angular/common/http';
+import { HttpHeaders, HttpParams  } from '@angular/common/http';
+import * as moment from 'moment';
+
 import { Observable } from 'rxjs/internal/Observable';
-import { catchError } from 'rxjs/operators';
-import * as moment from 'moment/moment';
-import { throwError } from 'rxjs/internal/observable/throwError';
-import { ErrorHandlerService } from '../core/error-handler.service';
 import { Lancamento } from '../core/model';
 import { FinancaHttp } from '../seguranca/financa-http';
 import { environment } from 'src/environments/environment';
@@ -29,6 +27,10 @@ export class LancamentoService {
     this.lancamentosUrl = `${environment.apiUrl}/lancamentos`;
 
    }
+
+  urlUploadAnexo(): string {
+    return `${this.lancamentosUrl}/anexo`;
+  }
 
   pesquisar(filtro: LancamentoFiltro): Observable <any> {
 

@@ -12,18 +12,24 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { DropdownModule } from 'primeng/dropdown';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { InputMaskModule } from 'primeng/inputmask';
+import {DialogModule} from 'primeng/dialog';
+
 import { PessoaPesquisaComponent } from './pessoa-pesquisa/pessoa-pesquisa.component';
 import { PessoaCadastroComponent } from './pessoa-cadastro/pessoa-cadastro.component';
 import { PessoasRoutingModule } from './pessoas-routing.module';
+import { PanelModule } from 'primeng/panel';
+import { PessoaCadastroContatoComponent } from './pessoa-cadastro-contato/pessoa-cadastro-contato.component';
 
 @NgModule({
   declarations: [
     PessoaPesquisaComponent,
-    PessoaCadastroComponent
+    PessoaCadastroComponent,
+    PessoaCadastroContatoComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
+
     InputTextModule,
     ButtonModule,
     TableModule,
@@ -35,7 +41,9 @@ import { PessoasRoutingModule } from './pessoas-routing.module';
     CurrencyMaskModule,
     InputMaskModule,
     SharedModule,
-    PessoasRoutingModule
+    PessoasRoutingModule,
+    PanelModule, 
+    DialogModule    
   ],
   exports: [],
 })

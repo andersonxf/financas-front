@@ -1,8 +1,8 @@
-import { ToastrService } from 'ngx-toastr';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotAuthenticatedError } from '../seguranca/financa-http';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ErrorHandlerService {
 
   constructor(
-    private toasty: ToastrService,
+    private messageService: MessageService,
     private router: Router
     ) { }
 
@@ -26,16 +26,13 @@ export class ErrorHandlerService {
 
     } else if (errorResponse instanceof HttpErrorResponse
         && errorResponse.status >= 400 && errorResponse.status <= 499) {
-      let errors;
       msg = 'Ocorreu um erro ao processar a sua solicitação';
 
       if(errorResponse.status === 403) {
         msg = 'Você não tem permissão para executar esta operação';
       }
       try {
-        errors = errorResponse;
-
-        msg = errors[0].mensagemUsuario;
+        msg = errorResponse.error[0].mensagemUsuario;
       } catch (e) { }
 
       console.error('Ocorreu um erro', errorResponse);
@@ -45,7 +42,7 @@ export class ErrorHandlerService {
       console.error('Ocorreu um erro', errorResponse);
     }
 
-    this.toasty.error(msg);
+    this.messageService.add({severity:'error', summary:'Erro!', detail:msg});
 
   }
 }
